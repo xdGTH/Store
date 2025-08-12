@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Catalog from "../../features/catalog/Catalog";
 import Header from "./Header";
 import {
   Container,
@@ -7,6 +6,7 @@ import {
   CssBaseline,
   ThemeProvider,
 } from "@mui/material";
+import { Outlet } from "react-router-dom";
 
 // const products = [
 //   { name: "product1", price: 100.0 },
@@ -73,7 +73,7 @@ function App() {
       <CssBaseline />
       <Header mode={mode} toggleMode={toggleMode} />
       <Container>
-        <Catalog />
+        <Outlet />
       </Container>
     </ThemeProvider>
   );
