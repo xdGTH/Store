@@ -7,6 +7,8 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactTostify.css";
 
 // const products = [
 //   { name: "product1", price: 100.0 },
@@ -70,6 +72,7 @@ function App() {
 
   return (
     <ThemeProvider theme={mode === false ? lightTheme : darkTheme}>
+      <ToastContainer position="top-center" hideProgressBar theme="colored" />
       <CssBaseline />
       <Header mode={mode} toggleMode={toggleMode} />
       <Container>
