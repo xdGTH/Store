@@ -34,7 +34,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(options =>
 {
-    options.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+    //AllowCredentials is needed to allow the passing of cookie back and forth
+    options.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
 });
 
 app.UseAuthorization();
