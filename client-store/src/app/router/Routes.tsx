@@ -8,12 +8,25 @@ import HomePage from "../../features/home/Homepage";
 import ServerError from "../errors/ServerError";
 import BasketPage from "../../features/basket/BasketPage";
 import CheckoutPage from "../../features/checkout/CheckoutPage";
+import Login from "../../features/account/Login";
+import Register from "../../features/account/Register";
+import RequireAuth from "./RequireAuth";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
+      {
+        //When we access the CheckoutPage we first go through the RequireAuth page and if the conditions match then only we will see the CheckoutPage
+        element: <RequireAuth />,
+        children: [
+          {
+            path: "checkout",
+            element: <CheckoutPage />,
+          },
+        ],
+      },
       {
         path: "",
         element: <HomePage />,
@@ -46,9 +59,14 @@ export const router = createBrowserRouter([
         path: "basket",
         element: <BasketPage />,
       },
+
       {
-        path: "checkout",
-        element: <CheckoutPage />,
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       },
       {
         path: "*",
