@@ -1,11 +1,12 @@
 using API.Entities;
+using API.Entities.OrderAggregate;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class StoreContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class StoreContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
     {
         public StoreContext(DbContextOptions options) : base(options)
         {
@@ -17,43 +18,50 @@ namespace API.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Basket> Baskets { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<IdentityRole>().HasData(
-                new IdentityRole
+            builder.Entity<ApplicationUser>()
+                .HasOne(a => a.Address)
+                .WithOne()
+                .HasForeignKey<UserAddress>(a => a.Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ApplicationRole>().HasData(
+                new ApplicationRole
                 {
-                    Id = "b74ddd14-6340-4840-95c2-db12554843e5",
+                    Id = 1,
                     Name = "Member",
                     NormalizedName = "MEMBER"
                 },
-        new IdentityRole
-        {
-            Id = "fab4fac1-c546-41de-aebc-a14da6895711",
-            Name = "Admin",
-            NormalizedName = "ADMIN"
-        }
+                new ApplicationRole
+                {
+                    Id = 2,
+                    Name = "Admin",
+                    NormalizedName = "ADMIN"
+                }
             );
 
             builder.Entity<Product>().HasData(
 new Product
-                {
-                    Id= 1,
-                    Name = "Angular Speedster Board 2000",
-                    Description =
+{
+    Id = 1,
+    Name = "Angular Speedster Board 2000",
+    Description =
                         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 20000,
-                    PictureUrl = "/images/products/sb-ang1.png",
-                    Brand = "Angular",
-                    Type = "Boards",
-                    QuantityInStock = 100
-                },
+    Price = 20000,
+    PictureUrl = "/images/products/sb-ang1.png",
+    Brand = "Angular",
+    Type = "Boards",
+    QuantityInStock = 100
+},
                 new Product
                 {
-                    Id= 2,
+                    Id = 2,
                     Name = "Green Angular Board 3000",
                     Description = "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
                     Price = 15000,
@@ -64,7 +72,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 3,
+                    Id = 3,
                     Name = "Core Board Speed Rush 3",
                     Description =
                         "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
@@ -76,7 +84,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 4,
+                    Id = 4,
                     Name = "Net Core Super Board",
                     Description =
                         "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
@@ -88,7 +96,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 5,
+                    Id = 5,
                     Name = "React Board Super Whizzy Fast",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
@@ -100,7 +108,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 6,
+                    Id = 6,
                     Name = "Typescript Entry Board",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
@@ -112,7 +120,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 7,
+                    Id = 7,
                     Name = "Core Blue Hat",
                     Description =
                         "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
@@ -124,7 +132,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 8,
+                    Id = 8,
                     Name = "Green React Woolen Hat",
                     Description =
                         "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
@@ -136,7 +144,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 9,
+                    Id = 9,
                     Name = "Purple React Woolen Hat",
                     Description =
                         "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
@@ -148,7 +156,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 10,
+                    Id = 10,
                     Name = "Blue Code Gloves",
                     Description =
                         "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
@@ -160,7 +168,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 11,
+                    Id = 11,
                     Name = "Green Code Gloves",
                     Description =
                         "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
@@ -172,7 +180,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 12,
+                    Id = 12,
                     Name = "Purple React Gloves",
                     Description =
                         "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
@@ -184,7 +192,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 13,
+                    Id = 13,
                     Name = "Green React Gloves",
                     Description =
                         "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
@@ -196,7 +204,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 14,
+                    Id = 14,
                     Name = "Redis Red Boots",
                     Description =
                         "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
@@ -208,7 +216,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 15,
+                    Id = 15,
                     Name = "Core Red Boots",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
@@ -220,7 +228,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 16,
+                    Id = 16,
                     Name = "Core Purple Boots",
                     Description =
                         "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
@@ -232,7 +240,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 17,
+                    Id = 17,
                     Name = "Angular Purple Boots",
                     Description = "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
                     Price = 15000,
@@ -243,7 +251,7 @@ new Product
                 },
                 new Product
                 {
-                    Id= 18,
+                    Id = 18,
                     Name = "Angular Blue Boots",
                     Description =
                         "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",

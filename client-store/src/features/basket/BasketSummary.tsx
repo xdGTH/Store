@@ -10,11 +10,18 @@ import {
 import { currencyFormat } from "../../app/util/Util";
 import { useAppSelector } from "../../app/store/configureStore";
 
-export default function BasketSummary() {
+interface Props {
+  subTotal?: number;
+}
+
+export default function BasketSummary(props: Props) {
   const { basket } = useAppSelector((state) => state.basket);
-  const subtotal =
-    basket?.items.reduce((sum, item) => sum + item.quantity * item.price, 0) ??
-    0;
+  const subtotal = props.subTotal
+    ? props.subTotal
+    : basket?.items.reduce(
+        (sum, item) => sum + item.quantity * item.price,
+        0
+      ) ?? 0;
   const deliveryFee = subtotal > 10000 ? 0 : 500;
 
   return (
