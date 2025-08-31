@@ -79,7 +79,8 @@ namespace API.Controllers
                 BuyerId = User.Identity.Name,
                 ShippingAddress = createOrderDTO.ShippingAddress,
                 SubTotal = subTotal,
-                DeliveryFee = deliveryFee
+                DeliveryFee = deliveryFee,
+                PaymentIntentId = basket.PaymentIntentId
             };
 
             await _storeContext.Orders.AddAsync(order);
