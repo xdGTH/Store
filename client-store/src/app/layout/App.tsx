@@ -6,7 +6,7 @@ import {
   CssBaseline,
   ThemeProvider,
 } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactTostify.css";
 // import { useStoreContext } from "../context/StoreContext";
@@ -14,6 +14,7 @@ import LoadingComponent from "./LoadingComponent";
 import { useAppDispatch } from "../store/configureStore";
 import { fetchBasketAsync } from "../../features/basket/basketSlice";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
+import HomePage from "../../features/home/HomePage";
 
 // const products = [
 //   { name: "product1", price: 100.0 },
@@ -21,6 +22,7 @@ import { fetchCurrentUser } from "../../features/account/accountSlice";
 // ];
 
 function App() {
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
 
@@ -91,16 +93,20 @@ function App() {
     },
   });
 
-  if (loading) return <LoadingComponent message="Initializing app..." />;
-
   return (
     <ThemeProvider theme={mode === false ? lightTheme : darkTheme}>
       <ToastContainer position="top-center" hideProgressBar theme="colored" />
       <CssBaseline />
       <Header mode={mode} toggleMode={toggleMode} />
-      <Container>
-        <Outlet />
-      </Container>
+      {loading ? (
+        <LoadingComponent message="Initializing app..." />
+      ) : location.pathname === "/" ? (
+        <HomePage />
+      ) : (
+        <Container sx={{ mt: 4 }}>
+          <Outlet />
+        </Container>
+      )}
     </ThemeProvider>
   );
 }

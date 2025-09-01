@@ -7,7 +7,7 @@ import { store } from "../store/configureStore";
 //We resolve this promise
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
 
-axios.defaults.baseURL = "http://localhost:5000/api/";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const responseBody = (response: AxiosResponse) => response.data;
@@ -21,7 +21,7 @@ axios.interceptors.request.use((config) => {
 
 axios.interceptors.response.use(
   async (response) => {
-    await sleep();
+    if (process.env.NODE_ENV === "development") await sleep();
     //"pagination" must be in lower case no matter what the browser tells. This is in the axios' case
     const pagination = response.headers["pagination"];
     if (pagination) {

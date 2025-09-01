@@ -49,7 +49,7 @@ namespace API.Controllers
                 anonBasket.BuyerId = user.UserName;
                 Response.Cookies.Delete("buyerId");
                 await _storeContext.SaveChangesAsync();
-                
+
             }
             return new UserDTO
             {

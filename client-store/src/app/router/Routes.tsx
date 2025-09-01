@@ -4,7 +4,7 @@ import Catalog from "../../features/catalog/Catalog";
 import ProductDetails from "../../features/catalog/ProductDetails";
 import AboutPage from "../../features/about/AboutPage";
 import ContactPage from "../../features/contact/ContactPage";
-import HomePage from "../../features/home/Homepage";
+// import HomePage from "../../features/home/HomePage";
 import ServerError from "../errors/ServerError";
 import BasketPage from "../../features/basket/BasketPage";
 import Login from "../../features/account/Login";
@@ -32,10 +32,10 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "",
-        element: <HomePage />,
-      },
+      // {
+      //   path: "",
+      //   element: <HomePage />,
+      // },
       {
         path: "catalog",
         element: <Catalog />,

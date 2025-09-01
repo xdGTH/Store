@@ -18,7 +18,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<StoreContext>(options=>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -95,7 +95,8 @@ if (app.Environment.IsDevelopment())
 
 // app.UseHttpsRedirection();
 
-
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.UseCors(options =>
 {
@@ -111,21 +112,24 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapFallbackToController("Index", "Fallback");
+
+
 var scope = app.Services.CreateScope();
 
 var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
 // var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 // var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-try
-{
-    context.Database.Migrate();
-    DbInitializer.Initialize(context);
-}
-catch (Exception ex)
-{
-    logger.LogError(ex, "A problem occured during migration");
+// try
+// {
+//     context.Database.Migrate();
+//     DbInitializer.Initialize(context);
+// }
+// catch (Exception ex)
+// {
+//     logger.LogError(ex, "A problem occured during migration");
 
-}
+// }
 
 app.Run();
